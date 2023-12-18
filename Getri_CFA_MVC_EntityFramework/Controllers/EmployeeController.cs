@@ -51,6 +51,15 @@ namespace Getri_CFA_MVC_EntityFramework.Controllers
 
         public IActionResult Delete(int id)
         {
+            return View("~/Views/Employee/Delete.cshtml",employeeRepository.GetEmployeeById(id));
+            //bool result = employeeRepository.DeleteEmployee(id);
+            //return RedirectToAction("Index");
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirm(int id)
+        {
+            //return View(employeeRepository.GetEmployeeById(id));
             bool result = employeeRepository.DeleteEmployee(id);
             return RedirectToAction("Index");
         }
