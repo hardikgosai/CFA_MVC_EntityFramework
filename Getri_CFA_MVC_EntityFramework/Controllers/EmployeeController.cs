@@ -31,10 +31,18 @@ namespace Getri_CFA_MVC_EntityFramework.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("EmpName,EmpAddress,EmpGender,EmpContact")] Employee employee)
         {
-           Employee employee1 = employeeRepository.AddEmployee(employee);
-            return RedirectToAction("Index");            
+            if (ModelState.IsValid)
+            {
+                Employee employee1 = employeeRepository.AddEmployee(employee);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(employee);
+            }
         }
 
         public IActionResult Edit(int id)
@@ -43,6 +51,7 @@ namespace Getri_CFA_MVC_EntityFramework.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Update([Bind("EmpId,EmpName,EmpAddress,EmpGender,EmpContact")] Employee employee)
         {
             Employee employee1 = employeeRepository.UpdateEmployee(employee);
@@ -51,7 +60,7 @@ namespace Getri_CFA_MVC_EntityFramework.Controllers
 
         public IActionResult Delete(int id)
         {
-            return View("~/Views/Employee/Delete.cshtml",employeeRepository.GetEmployeeById(id));
+            return View(employeeRepository.GetEmployeeById(id));
             //bool result = employeeRepository.DeleteEmployee(id);
             //return RedirectToAction("Index");
         }
